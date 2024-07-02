@@ -1,69 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:mx_flutter_test/constant/color.dart';
+import 'package:mx_flutter_test/controller/nav_bar_controller.dart';
+import 'package:mx_flutter_test/routes/app_pages.dart';
+import 'package:mx_flutter_test/routes/binding/binding.dart';
+import 'package:mx_flutter_test/util/preference.dart';
+import 'package:sizer/sizer.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  // enableFlutterDriverExtension();
+  WidgetsFlutterBinding.ensureInitialized();
+  Get.lazyPut(() => NavBarController(), fenix: true);
+  await Preference.init();
+  Preference.getBool(Preference.showOnboard) ??
+      Preference.setBool(Preference.showOnboard, true);
+  Preference.getBool(Preference.isLogin) ??
+      Preference.setBool(Preference.isLogin, false);
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+    return Sizer(builder:
+        (BuildContext context, Orientation orientation, DeviceType deviceType) {
+      return GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Shopping App',
+        builder: (context, child) {
+          return Scaffold(
+            body: child,
+          );
+        },
+        theme: ThemeData(
+          primaryColor: primaryColor,
+          textTheme: GoogleFonts.poppinsTextTheme(
+            Theme.of(context).textTheme,
+          ),
+          useMaterial3: true,
+          fontFamily: GoogleFonts.poppins().fontFamily,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+        initialRoute: AppPages.splashScreen,
+        getPages: AppPages.pageList,
+        initialBinding: InitialBinding(),
+      );
+    });
   }
 }
