@@ -95,7 +95,7 @@ class _MainPageState extends State<MainPage> {
                                   var prodlist = _getListToDisplay()[index];
                                   return InkWell(
                                     onTap: () async {
-                                      Get.toNamed('/details');
+                                      Get.toNamed('/product-details');
                                     },
                                     child: Card(
                                       color: Colors.white,
