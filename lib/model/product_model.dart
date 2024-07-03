@@ -42,6 +42,14 @@ class Product {
   }
 }
 
+extension ProductExtension on Product {
+  String getProductNameOrLoading(Product ProductById, int id) {
+    return ProductById.id == id
+        ? ProductById.title ?? 'Loading..'
+        : 'Loading..';
+  }
+}
+
 class Rating {
   final double? rate;
   final int? count;
