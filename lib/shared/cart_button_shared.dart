@@ -13,7 +13,7 @@ class _CardButtonSharedState extends State<CardButtonShared> {
   Widget build(BuildContext context) {
     return IconButton(
         onPressed: () {
-          Get.toNamed('/cart');
+          Get.toNamed('/cartPage');
         },
         icon: const Icon(Icons.shopping_cart_outlined));
   }

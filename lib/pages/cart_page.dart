@@ -259,7 +259,7 @@ class _CartPageState extends State<CartPage> {
                         Preference.order, orderStrings);
 
                     Preference.remove(Preference.cart);
-                    Get.offAllNamed('/home');
+                    Get.offAllNamed('/navigationBarPage');
                   },
           )
         ],

@@ -3,6 +3,7 @@ class AppRoutes {
   static const navigationBarPage = '/navigationBarPage';
   static const mainPage = '/mainPage';
   static const cartPage = '/cartPage';
+  static const orderPage = '/orderPage';
   static const profilePage = '/profilePage';
   static const productDetails = '/product-details';
 }
