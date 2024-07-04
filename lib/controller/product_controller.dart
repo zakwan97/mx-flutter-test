@@ -10,6 +10,7 @@ class ProductController extends GetxController {
   var searchProdList = <Product>[].obs;
   var filteredProducts = <Product>[].obs;
   var selectedCategory = ''.obs;
+  var productById = Product().obs;
 
   //Search Module
   String id = '';
@@ -64,6 +65,12 @@ class ProductController extends GetxController {
     isLoading.value = true;
     prodList.value = await prodServ.getProductList();
     isLoading.value = false;
+    update();
+  }
+
+  Future<void> getProductById(int id) async {
+    final Product? response = await prodServ.getProductbyID(id);
+    productById.value = response!;
     update();
   }
 }
