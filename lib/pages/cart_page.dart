@@ -176,7 +176,7 @@ class _CartPageState extends State<CartPage> {
                             Address address = addresses[index];
                             return GestureDetector(
                               onTap: () {
-                                Get.toNamed('/address')!
+                                Get.toNamed('/addressPage')!
                                     .then((value) => loadDefaultAddress());
                               },
                               child: ListTile(

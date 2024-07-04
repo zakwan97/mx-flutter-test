@@ -84,7 +84,7 @@ class _OrderPageState extends State<OrderPage> {
                     setState(() {
                       o.orderId = order.orderId;
                     });
-                    Get.toNamed('/historyDetails');
+                    Get.toNamed('/orderHistoryPage');
                   },
                 );
               },
