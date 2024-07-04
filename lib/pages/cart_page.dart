@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:mx_flutter_test/controller/nav_bar_controller.dart';
 import 'package:mx_flutter_test/model/address_model.dart';
@@ -23,6 +24,7 @@ class _CartPageState extends State<CartPage> {
   List<Cart> carts = [];
   List<Address> addresses = [];
   NavBarController h = Get.find();
+  SlidableController? _activeSlidable;
 
   Future<void> loadCart() async {
     List<String>? encodedCarts = Preference.getStringList('cart');
@@ -120,54 +122,75 @@ class _CartPageState extends State<CartPage> {
                       ? const Center(
                           child: Text('No product added'),
                         )
-                      : ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: carts.length,
-                          itemBuilder: (context, index) {
-                            Cart cart = carts[index];
-                            return Dismissible(
-                              key: Key(cart.cartid.toString()),
-                              direction: DismissDirection.endToStart,
-                              background: Container(
-                                color: Colors.red,
-                                alignment: Alignment.centerRight,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20.0),
-                                child: const Icon(Icons.delete,
-                                    color: Colors.white),
-                              ),
-                              onDismissed: (direction) {
-                                deleteCart(cart);
-                              },
-                              child: ListTile(
-                                title: Text(cart.product!.title!),
-                                subtitle: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                      : SlidableAutoCloseBehavior(
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: carts.length,
+                            itemBuilder: (context, index) {
+                              Cart cart = carts[index];
+                              return Slidable(
+                                key: Key(cart.cartid.toString()),
+                                controller: _activeSlidable,
+                                endActionPane: ActionPane(
+                                  motion: const ScrollMotion(),
                                   children: [
-                                    Text(
-                                      'Price: ${((100) * cart.product!.price! / 100).toStringAsFixed(2)}',
-                                      style: const TextStyle(fontSize: 12),
+                                    SlidableAction(
+                                      flex: 2,
+                                      onPressed: (context) async {
+                                        deleteCart(cart);
+                                        Get.snackbar(
+                                          'Alert',
+                                          'Your item(s) has been deleted',
+                                          snackPosition: SnackPosition.BOTTOM,
+                                          backgroundColor: Colors.orange,
+                                          colorText: Colors.black,
+                                          margin: const EdgeInsets.only(
+                                              bottom: 20.0,
+                                              left: 15.0,
+                                              right: 15.0),
+                                        );
+                                      },
+                                      backgroundColor: Colors.red,
+                                      foregroundColor: Colors.white,
+                                      icon: Icons.delete,
+                                      label: 'Delete',
                                     ),
-                                    Text(
-                                      'Total Price: ${(((100) * cart.product!.price! / 100) * cart.quantity).toStringAsFixed(2)}',
-                                      style: const TextStyle(fontSize: 12),
-                                    )
                                   ],
                                 ),
-                                trailing: Text('Quantity: ${cart.quantity}'),
-                                leading: Image.network(
-                                  cart.product!.image!,
-                                  fit: BoxFit.fill,
-                                  width: 25.w,
+                                child: ListTile(
+                                  title: Text(cart.product!.title!),
+                                  subtitle: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Price: ${((100) * cart.product!.price! / 100).toStringAsFixed(2)}',
+                                        style: const TextStyle(fontSize: 12),
+                                      ),
+                                      Text(
+                                        'Total Price: ${(((100) * cart.product!.price! / 100) * cart.quantity).toStringAsFixed(2)}',
+                                        style: const TextStyle(fontSize: 12),
+                                      )
+                                    ],
+                                  ),
+                                  trailing: Text('Quantity: ${cart.quantity}'),
+                                  leading: Image.network(
+                                    cart.product!.image!,
+                                    fit: BoxFit.fill,
+                                    width: 15.w,
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
+                              );
+                            },
+                          ),
                         ),
                   addresses.isEmpty
                       ? const Center(
-                          child: Text('No addresses found'),
+                          child: Text(
+                            'No Addresses found',
+                            style: TextStyle(color: Colors.red),
+                          ),
                         )
                       : ListView.builder(
                           shrinkWrap: true,
@@ -222,7 +245,6 @@ class _CartPageState extends State<CartPage> {
                       productMap['quantity'] = cart.quantity;
                       productListJson.add(productMap);
                     }
-                    Map<String, dynamic> addressJson = addresses.first.toJson();
 
                     if (addresses.isEmpty) {
                       Get.snackbar(
@@ -235,7 +257,10 @@ class _CartPageState extends State<CartPage> {
                             horizontal: 4.2.w, vertical: 1.23.h),
                         duration: const Duration(seconds: 3),
                       );
+                      return;
                     }
+
+                    Map<String, dynamic> addressJson = addresses.first.toJson();
 
                     List<Product> productList = [];
 
