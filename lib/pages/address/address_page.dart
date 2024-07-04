@@ -4,6 +4,7 @@ import 'package:mx_flutter_test/controller/address_controller.dart';
 import 'package:mx_flutter_test/model/address_model.dart';
 import 'package:mx_flutter_test/shared/button_shared.dart';
 import 'package:mx_flutter_test/util/preference.dart';
+import 'package:sizer/sizer.dart';
 
 class AddressPage extends StatelessWidget {
   const AddressPage({super.key});
@@ -41,7 +42,20 @@ class AddressPage extends StatelessWidget {
                           trailing: IconButton(
                             icon: const Icon(Icons.delete),
                             onPressed: () async {
-                              await addressController.deleteAddress(address);
+                              await addressController
+                                  .deleteAddress(address)
+                                  .then((value) {
+                                Get.snackbar(
+                                  'Success',
+                                  'Your Address has been deleted',
+                                  snackPosition: SnackPosition.BOTTOM,
+                                  backgroundColor: Colors.green,
+                                  borderRadius: 8,
+                                  margin: EdgeInsets.symmetric(
+                                      horizontal: 4.2.w, vertical: 1.23.h),
+                                  duration: const Duration(seconds: 3),
+                                );
+                              });
                             },
                           ),
                           leading: Checkbox(

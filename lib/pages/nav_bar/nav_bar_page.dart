@@ -20,7 +20,7 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
   final List<NavItem> _navItems = [
     NavItem(PhosphorIcons.houseSimple(), "Home"),
     NavItem(Icons.list_alt, "History"),
-    NavItem(PhosphorIcons.userCircle(), "Profile"),
+    NavItem(PhosphorIcons.mailbox(), "Address"),
   ];
 
   void _onNavItemTapped(int index) {

@@ -4,6 +4,7 @@ class Product {
   final double? price;
   final String? description;
   final String? category;
+  final int? quantity;
   final String? image;
   final Rating? rating;
 
@@ -13,6 +14,7 @@ class Product {
     this.price,
     this.description,
     this.category,
+    this.quantity,
     this.image,
     this.rating,
   });
@@ -24,6 +26,7 @@ class Product {
       price: (json['price'] as num?)?.toDouble(),
       description: json['description'] as String?,
       category: json['category'] as String?,
+      quantity: json['quantity'] as int?,
       image: json['image'] as String?,
       rating: json['rating'] != null ? Rating.fromJson(json['rating']) : null,
     );
@@ -36,6 +39,7 @@ class Product {
       'price': price,
       'description': description,
       'category': category,
+      'quantity': quantity,
       'image': image,
       'rating': rating?.toJson(),
     };

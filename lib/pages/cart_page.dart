@@ -224,6 +224,19 @@ class _CartPageState extends State<CartPage> {
                     }
                     Map<String, dynamic> addressJson = addresses.first.toJson();
 
+                    if (addresses.isEmpty) {
+                      Get.snackbar(
+                        'Error',
+                        'Please add your address first',
+                        snackPosition: SnackPosition.BOTTOM,
+                        backgroundColor: Colors.red,
+                        borderRadius: 8,
+                        margin: EdgeInsets.symmetric(
+                            horizontal: 4.2.w, vertical: 1.23.h),
+                        duration: const Duration(seconds: 3),
+                      );
+                    }
+
                     List<Product> productList = [];
 
                     for (Map<String, dynamic> productJson in productListJson) {
@@ -256,7 +269,19 @@ class _CartPageState extends State<CartPage> {
                         orders.map((order) => json.encode(order)).toList();
 
                     await Preference.setStringList(
-                        Preference.order, orderStrings);
+                            Preference.order, orderStrings)
+                        .then((_) {
+                      Get.snackbar(
+                        'Success',
+                        'Your item(s) successfully ordered',
+                        snackPosition: SnackPosition.BOTTOM,
+                        backgroundColor: Colors.green,
+                        borderRadius: 8,
+                        margin: EdgeInsets.symmetric(
+                            horizontal: 4.2.w, vertical: 1.23.h),
+                        duration: const Duration(seconds: 3),
+                      );
+                    });
 
                     Preference.remove(Preference.cart);
                     Get.offAllNamed('/navigationBarPage');

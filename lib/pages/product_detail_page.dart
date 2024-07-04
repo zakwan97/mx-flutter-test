@@ -41,10 +41,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           () => Text(prodCon.productById.value
               .getProductNameOrLoading(prodCon.productById.value, prodid)),
         ),
-        actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.share)),
-          const CardButtonShared()
-        ],
+        actions: const [CardButtonShared()],
       ),
       body: Shimmer(
         linearGradient: shimmerGradient,
@@ -189,41 +186,6 @@ class _ProductDetailsState extends State<ProductDetails> {
                                       fontWeight: FontWeight.bold),
                                 ),
                               ),
-                              // Padding(
-                              //   padding: EdgeInsets.all(4.2.w),
-                              //   child: Row(
-                              //     children: [
-                              //       Text.rich(
-                              //         TextSpan(
-                              //           children: [
-                              //             const TextSpan(
-                              //               text: 'RM',
-                              //               style: TextStyle(
-                              //                 fontSize: 15,
-                              //                 color: Color.fromARGB(
-                              //                     255, 171, 34, 34),
-                              //               ),
-                              //             ),
-                              //             TextSpan(
-                              //               text: ((100 -
-                              //                           pd.productById.value
-                              //                               .discountPercentage!) *
-                              //                       pd.productById.value
-                              //                           .price! /
-                              //                       100)
-                              //                   .toStringAsFixed(2),
-                              //               style: const TextStyle(
-                              //                 fontSize: 20,
-                              //                 color: Color.fromARGB(
-                              //                     255, 171, 34, 34),
-                              //               ),
-                              //             )
-                              //           ],
-                              //         ),
-                              //       ),
-                              //     ],
-                              //   ),
-                              // ),
                             ],
                           ),
                         ),
@@ -307,8 +269,15 @@ class _ProductDetailsState extends State<ProductDetails> {
                     borderColor: Colors.amber,
                     spacing: 0.0),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 2.1.w),
-                  child: Text('${product.rating?.rate} / 5 '),
+                  padding: EdgeInsets.only(left: 2.1.w),
+                  child: Text(
+                    '${product.rating?.rate} / 5 ',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 0),
+                  child: Text('- ${product.rating?.count} votes'),
                 ),
               ],
             ),
@@ -319,37 +288,13 @@ class _ProductDetailsState extends State<ProductDetails> {
             children: [
               Row(
                 children: [
-                  // Text.rich(
-                  //   TextSpan(
-                  //     children: [
-                  //       const TextSpan(
-                  //         text: 'RM',
-                  //         style: TextStyle(
-                  //           fontSize: 15,
-                  //           color: Color.fromARGB(255, 171, 34, 34),
-                  //         ),
-                  //       ),
-                  //       TextSpan(
-                  //         text: ((100 - gameData.discountPercentage!) *
-                  //                 gameData.price! /
-                  //                 100)
-                  //             .toStringAsFixed(2),
-                  //         style: const TextStyle(
-                  //           fontSize: 20,
-                  //           color: Color.fromARGB(255, 171, 34, 34),
-                  //         ),
-                  //       )
-                  //     ],
-                  //   ),
-                  // ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 0.w),
                     child: Text(
-                      'Price: RM${product.price!.toString()}',
+                      'Price: RM ${product.price!.toString()}',
                       style: const TextStyle(
-                        color: Colors.black,
-                        // decoration: TextDecoration.lineThrough,
-                      ),
+                          fontSize: 16,
+                          color: Color.fromARGB(255, 171, 34, 34)),
                     ),
                   ),
                 ],
@@ -364,13 +309,6 @@ class _ProductDetailsState extends State<ProductDetails> {
               Expanded(child: Text(product.title!)),
             ],
           ),
-          // Row(
-          //   crossAxisAlignment: CrossAxisAlignment.start,
-          //   children: [
-          //     const Text('Brand: '),
-          //     Expanded(child: Text(gameData.brand!)),
-          //   ],
-          // ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

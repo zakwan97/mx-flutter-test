@@ -50,28 +50,48 @@ class _MainPageState extends State<MainPage> {
                         padding: EdgeInsets.symmetric(vertical: 0.5.h),
                         child: const SearchProduct()),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: DropdownButtonFormField<String>(
-                        hint: const Text('Select Category'),
-                        value: category,
-                        onChanged: (value) {
-                          prodCon.filterByCategory(value ?? '');
+                      padding: EdgeInsets.symmetric(
+                          vertical: 0.5.h, horizontal: 10.h),
+                      child: PopupMenuButton<String>(
+                        color: whiteColor,
+                        surfaceTintColor: whiteColor,
+                        onSelected: (value) {
+                          setState(() {
+                            category = value;
+                            prodCon.filterByCategory(value);
+                          });
                         },
-                        items: <String>[
-                          '',
-                          "men's clothing",
-                          "women's clothing",
-                          "electronics",
-                          "jewelery",
-                        ].map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value.isEmpty ? 'All' : value),
-                          );
-                        }).toList(),
-                        decoration: const InputDecoration(
-                          fillColor: whiteColor,
-                          border: OutlineInputBorder(),
+                        itemBuilder: (BuildContext context) {
+                          return <String>[
+                            '',
+                            "men's clothing",
+                            "women's clothing",
+                            "electronics",
+                            "jewelery",
+                          ].map<PopupMenuItem<String>>((String value) {
+                            return PopupMenuItem<String>(
+                              value: value,
+                              child: Text(value.isEmpty ? 'All' : value),
+                            );
+                          }).toList();
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 1.0.h, horizontal: 2.0.h),
+                          decoration: BoxDecoration(
+                            color: whiteColor,
+                            border: Border.all(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(category.isEmpty
+                                  ? 'Select Category'
+                                  : category),
+                              const Icon(Icons.arrow_drop_down),
+                            ],
+                          ),
                         ),
                       ),
                     ),

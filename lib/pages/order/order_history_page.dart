@@ -109,7 +109,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
                         ListTile(
                           title: Text(product.title!),
                           subtitle: Text(
-                            'Quantity: ${(order.totalAmount / product.price!).toStringAsFixed(0)}',
+                            'Quantity: ${(product.quantity!).toStringAsFixed(0)}',
                             style: const TextStyle(fontSize: 12),
                           ),
                           trailing: Column(
