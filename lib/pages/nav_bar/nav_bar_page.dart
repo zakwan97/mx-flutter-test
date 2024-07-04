@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mx_flutter_test/constant/color.dart';
 import 'package:mx_flutter_test/controller/nav_bar_controller.dart';
-import 'package:mx_flutter_test/pages/cart_page.dart';
+import 'package:mx_flutter_test/pages/address/address_page.dart';
 import 'package:mx_flutter_test/pages/main_page.dart';
-import 'package:mx_flutter_test/pages/order_page.dart';
-import 'package:mx_flutter_test/pages/profile_page.dart';
+import 'package:mx_flutter_test/pages/order/order_page.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class NavigationBarPage extends StatefulWidget {
@@ -53,7 +52,7 @@ class _NavigationBarPageState extends State<NavigationBarPage> {
       ),
       body: IndexedStack(
         index: nvb.tabIndex,
-        children: const [MainPage(), OrderPage(), ProfilePage()],
+        children: const [MainPage(), OrderPage(), AddressPage()],
       ),
     );
   }
