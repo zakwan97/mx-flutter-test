@@ -125,15 +125,14 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
                           ),
                           leading: Image.network(
                             product.image!,
-                            fit: BoxFit.cover,
+                            fit: BoxFit.fill,
                             width: 15.w,
-                            height: 5.h,
                           ),
                           onTap: () {
                             setState(() {
                               o.orderId = order.orderId;
                             });
-                            Get.toNamed('/historyDetails');
+                            // Get.toNamed('/historyDetails');
                           },
                         ),
                         const Divider(),

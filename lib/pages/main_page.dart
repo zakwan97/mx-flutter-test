@@ -33,6 +33,12 @@ class _MainPageState extends State<MainPage> {
     return KeyboardUnfocusFunction(
       child: Scaffold(
           appBar: AppBar(
+            surfaceTintColor: whiteColor,
+            title: const Text(
+              "Welcome!",
+              style: TextStyle(fontSize: 18, color: primaryColor),
+            ),
+            centerTitle: true,
             actions: const [CardButtonShared()],
           ),
           body: Obx(
