@@ -11,6 +11,7 @@ import 'package:mx_flutter_test/shared/button_shared.dart';
 import 'package:mx_flutter_test/shared/cart_button_shared.dart';
 import 'package:mx_flutter_test/shared/shimmer_loading_shared.dart';
 import 'package:mx_flutter_test/util/preference.dart';
+import 'package:pinch_zoom/pinch_zoom.dart';
 import 'package:sizer/sizer.dart';
 import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
 
@@ -51,10 +52,12 @@ class _ProductDetailsState extends State<ProductDetails> {
           children: [
             Obx(() => ShimmerLoading(
                   isLoading: prodCon.productById.value.id != prodid,
-                  child: Image.network(
-                    prodCon.productById.value.image ??
-                        'https://cdn.dummyjson.com/product-images/1/thumbnail.jpg',
-                    height: 30.h,
+                  child: PinchZoom(
+                    child: Image.network(
+                      prodCon.productById.value.image ??
+                          'https://cdn.dummyjson.com/product-images/1/thumbnail.jpg',
+                      height: 30.h,
+                    ),
                   ),
                 )),
             Expanded(
@@ -284,7 +287,7 @@ class _ProductDetailsState extends State<ProductDetails> {
     );
   }
 
-  Widget _buildList(bool isLoading, Product gameData, BuildContext context) {
+  Widget _buildList(bool isLoading, Product product, BuildContext context) {
     if (isLoading) {
       return shimmerContainer();
     } else {
@@ -298,14 +301,14 @@ class _ProductDetailsState extends State<ProductDetails> {
                 SmoothStarRating(
                     allowHalfRating: false,
                     starCount: 5,
-                    rating: gameData.rating?.rate ?? 0,
+                    rating: product.rating?.rate ?? 0,
                     size: 30.0,
                     color: Colors.amber,
                     borderColor: Colors.amber,
                     spacing: 0.0),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 2.1.w),
-                  child: Text('${gameData.rating} / 5 '),
+                  child: Text('${product.rating?.rate} / 5 '),
                 ),
               ],
             ),
@@ -340,12 +343,12 @@ class _ProductDetailsState extends State<ProductDetails> {
                   //   ),
                   // ),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 2.1.w),
+                    padding: EdgeInsets.symmetric(horizontal: 0.w),
                     child: Text(
-                      'RM${gameData.price!.toString()}',
+                      'Price: RM${product.price!.toString()}',
                       style: const TextStyle(
-                        color: Colors.grey,
-                        decoration: TextDecoration.lineThrough,
+                        color: Colors.black,
+                        // decoration: TextDecoration.lineThrough,
                       ),
                     ),
                   ),
@@ -358,7 +361,7 @@ class _ProductDetailsState extends State<ProductDetails> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('Product Name: '),
-              Expanded(child: Text(gameData.title!)),
+              Expanded(child: Text(product.title!)),
             ],
           ),
           // Row(
@@ -372,14 +375,14 @@ class _ProductDetailsState extends State<ProductDetails> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('Category: '),
-              Expanded(child: Text(gameData.category!)),
+              Expanded(child: Text(product.category!)),
             ],
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text('Description: '),
-              Expanded(child: Text(gameData.description!)),
+              Expanded(child: Text(product.description!)),
             ],
           ),
           const Divider(),
