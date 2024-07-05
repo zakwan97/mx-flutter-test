@@ -32,9 +32,7 @@ class ProductController extends GetxController {
 
   void settxtsearch(String val) {
     txtSearch.value = val;
-    searchProdList.clear();
     filterCollect();
-    update();
   }
 
   void setProducts(List<Product> products) {
@@ -50,15 +48,27 @@ class ProductController extends GetxController {
       filteredProducts.value =
           prodList.where((product) => product.category == category).toList();
     }
+    filterCollect();
   }
 
   void filterCollect() {
-    for (int i = 0; i < prodList.length; i++) {
-      if (prodList[i].title!.contains(txtSearch.value) ||
-          prodList[i].title!.toLowerCase().contains(txtSearch.value)) {
-        searchProdList.add(prodList[i]);
+    searchProdList.clear();
+    List<Product> categoryFilteredList = selectedCategory.value.isEmpty
+        ? prodList
+        : prodList
+            .where((product) => product.category == selectedCategory.value)
+            .toList();
+
+    for (int i = 0; i < categoryFilteredList.length; i++) {
+      if (categoryFilteredList[i].title!.contains(txtSearch.value) ||
+          categoryFilteredList[i]
+              .title!
+              .toLowerCase()
+              .contains(txtSearch.value)) {
+        searchProdList.add(categoryFilteredList[i]);
       }
     }
+    update();
   }
 
   Future<void> getProductList() async {

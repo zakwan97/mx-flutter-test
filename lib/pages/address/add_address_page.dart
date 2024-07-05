@@ -125,6 +125,16 @@ class _AddAddressPageState extends State<AddAddressPage> {
                   'isDefault': addresses == [] ? true : false
                 };
                 await saveAddress(addressData).then((value) => Get.back());
+                Get.snackbar(
+                  'Success',
+                  'Your address successfully saved',
+                  snackPosition: SnackPosition.BOTTOM,
+                  backgroundColor: Colors.green,
+                  borderRadius: 8,
+                  margin:
+                      EdgeInsets.symmetric(horizontal: 4.2.w, vertical: 1.23.h),
+                  duration: const Duration(seconds: 3),
+                );
               },
             )
           ],

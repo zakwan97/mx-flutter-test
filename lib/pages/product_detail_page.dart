@@ -52,7 +52,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   child: PinchZoom(
                     child: Image.network(
                       prodCon.productById.value.image ??
-                          'https://cdn.dummyjson.com/product-images/1/thumbnail.jpg',
+                          'http://via.placeholder.com/350x150',
                       height: 30.h,
                     ),
                   ),
@@ -169,7 +169,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                               isLoading: prodCon.productById.value.id != prodid,
                               child: Image.network(
                                 prodCon.productById.value.image ??
-                                    'https://cdn.dummyjson.com/product-images/1/thumbnail.jpg',
+                                    'http://via.placeholder.com/350x150',
                                 width: 35.w,
                               ),
                             )),

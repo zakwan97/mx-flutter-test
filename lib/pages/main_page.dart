@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:mx_flutter_test/constant/color.dart';
 import 'package:mx_flutter_test/controller/product_controller.dart';
@@ -21,6 +22,7 @@ class _MainPageState extends State<MainPage> {
   final ScrollController _controller = ScrollController();
   ProductController prodCon = Get.put(ProductController());
   String category = "";
+  bool show = false;
 
   @override
   void initState() {
@@ -57,48 +59,82 @@ class _MainPageState extends State<MainPage> {
                         child: const SearchProduct()),
                     Padding(
                       padding: EdgeInsets.symmetric(
-                          vertical: 0.5.h, horizontal: 10.h),
-                      child: PopupMenuButton<String>(
-                        color: whiteColor,
-                        surfaceTintColor: whiteColor,
-                        onSelected: (value) {
-                          setState(() {
-                            category = value;
-                            prodCon.filterByCategory(value);
-                          });
-                        },
-                        itemBuilder: (BuildContext context) {
-                          return <String>[
-                            '',
-                            "men's clothing",
-                            "women's clothing",
-                            "electronics",
-                            "jewelery",
-                          ].map<PopupMenuItem<String>>((String value) {
-                            return PopupMenuItem<String>(
-                              value: value,
-                              child: Text(value.isEmpty ? 'All' : value),
-                            );
-                          }).toList();
-                        },
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 1.0.h, horizontal: 2.0.h),
-                          decoration: BoxDecoration(
+                          vertical: 0.5.h, horizontal: show ? 8.h : 5.h),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          PopupMenuButton<String>(
                             color: whiteColor,
-                            border: Border.all(color: Colors.grey),
-                            borderRadius: BorderRadius.circular(8),
+                            surfaceTintColor: whiteColor,
+                            onSelected: (value) {
+                              setState(() {
+                                category = value;
+                                prodCon.filterByCategory(value);
+                                if (category.isEmpty) {
+                                  setState(() {
+                                    show = false;
+                                  });
+                                } else {
+                                  setState(() {
+                                    show = true;
+                                  });
+                                }
+                              });
+                            },
+                            itemBuilder: (BuildContext context) {
+                              return <String>[
+                                '',
+                                "men's clothing",
+                                "women's clothing",
+                                "electronics",
+                                "jewelery",
+                              ].map<PopupMenuItem<String>>((String value) {
+                                return PopupMenuItem<String>(
+                                  value: value,
+                                  child: Text(value.isEmpty ? 'All' : value),
+                                );
+                              }).toList();
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 1.0.h, horizontal: 2.0.h),
+                              decoration: BoxDecoration(
+                                color: whiteColor,
+                                border: Border.all(color: Colors.grey),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(category.isEmpty
+                                      ? 'Select Category'
+                                      : category),
+                                  const Icon(Icons.arrow_drop_down),
+                                ],
+                              ),
+                            ),
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(category.isEmpty
-                                  ? 'Select Category'
-                                  : category),
-                              const Icon(Icons.arrow_drop_down),
-                            ],
-                          ),
-                        ),
+                          Visibility(
+                            visible: show,
+                            child: TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  category = "";
+                                  prodCon.filterByCategory(category);
+                                  show = false;
+                                });
+                              },
+                              style: TextButton.styleFrom(
+                                foregroundColor: Colors.redAccent,
+                              ),
+                              child: const Text(
+                                'Clear',
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ),
+                          )
+                        ],
                       ),
                     ),
                     Expanded(
