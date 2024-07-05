@@ -194,7 +194,7 @@ class _MainPageState extends State<MainPage> {
                                               borderColor: Colors.amber,
                                               spacing: 0.0),
                                           Text(
-                                            'RM${prodlist.price.toString()}',
+                                            'RM${prodlist.price!.toStringAsFixed(2)}',
                                             overflow: TextOverflow.ellipsis,
                                           ),
                                         ],

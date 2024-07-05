@@ -291,7 +291,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 0.w),
                     child: Text(
-                      'Price: RM ${product.price!.toString()}',
+                      'Price: RM ${product.price!.toStringAsFixed(2)}',
                       style: const TextStyle(
                           fontSize: 16,
                           color: Color.fromARGB(255, 171, 34, 34)),
